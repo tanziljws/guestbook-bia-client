@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
+import Image from 'next/image';
 
 export default function GuestBook() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ export default function GuestBook() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,19 +24,19 @@ export default function GuestBook() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.nama.trim() || !formData.asalInstansi.trim()) {
-      toast.error('Mohon lengkapi semua field!');
+      toast.error('Mohon lengkapi semua field terlebih dahulu 📝');
       return;
     }
 
     setIsSubmitting(true);
 
     // Simulate form submission delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1200));
 
-    toast.success('Terima kasih! Data Anda telah berhasil dikirim.');
-    
+    toast.success('Selamat datang! Data Anda telah tersimpan dengan baik');
+
     // Reset form
     setFormData({
       nama: '',
@@ -45,136 +47,224 @@ export default function GuestBook() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <Toaster 
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/background.jpg"
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+          quality={90}
+        />
+        {/* Green Overlay untuk efek seperti TaniPintar */}
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/80 via-emerald-500/70 to-green-600/80"></div>
+      </div>
+
+      <Toaster
         position="top-center"
         toastOptions={{
-          duration: 4000,
+          duration: 4500,
           style: {
-            background: 'var(--background)',
-            color: 'var(--foreground)',
-            border: '1px solid var(--border)',
+            background: '#ffffff',
+            color: '#000000',
+            border: '2px solid #e5e7eb',
+            borderRadius: '16px',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+            fontSize: '15px',
+            fontWeight: '600',
+          },
+          success: {
+            style: {
+              background: '#f0fdf4',
+              color: '#166534',
+              border: '2px solid #10b981',
+            },
+          },
+          error: {
+            style: {
+              background: '#fef2f2',
+              color: '#000000',
+              border: '2px solid #ef4444',
+            },
           },
         }}
       />
-      
-      <div className="container mx-auto px-4 py-8 sm:py-16">
+
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 sm:px-6 py-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-2xl mx-auto"
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="w-full max-w-md mx-auto"
         >
-          {/* Header */}
-          <div className="text-center mb-12">
+          {/* Header Section */}
+          <div className="text-center mb-8 sm:mb-12">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-6"
+              initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: "backOut" }}
+              className="mb-6 sm:mb-8"
             >
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
+              {/* Logo */}
+              <div className="flex justify-center mb-6">
+                <motion.div
+                  whileHover={{ scale: 1.05, rotate: 2 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="w-20 h-20"
+                >
+                  <Image
+                    src="/logo.png"
+                    alt="Logo Buku Tamu Digital"
+                    width={80}
+                    height={80}
+                    className="rounded-2xl shadow-lg bg-white/90 p-2"
+                    priority
+                  />
+                </motion.div>
               </div>
-              <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-4">
-                Buku Tamu Digital
+
+              <h1 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white drop-shadow-lg text-center">
+                Buku Tamu
               </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-md mx-auto">
-                Selamat datang! Silakan isi data Anda di bawah ini untuk mendaftar sebagai tamu.
+              <p className="text-base sm:text-lg mx-auto leading-relaxed text-white/90 font-medium drop-shadow-md text-center max-w-sm">
+                Silakan isi informasi Anda untuk bergabung dengan kami hari ini
               </p>
             </motion.div>
           </div>
-
-          {/* Form Card */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8 sm:p-10"
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative"
           >
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Nama Field */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-              >
-                <label htmlFor="nama" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                  Nama Lengkap
-                </label>
-                <input
-                  type="text"
-                  id="nama"
-                  name="nama"
-                  value={formData.nama}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-4 text-lg border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
-                  placeholder="Masukkan nama lengkap Anda"
-                  required
-                />
-              </motion.div>
+            {/* Background Card */}
+            <div className="absolute inset-0 bg-white/60 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 transition-all duration-500 group-hover:shadow-2xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-white/40 rounded-3xl"></div>
 
-              {/* Asal Instansi Field */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-              >
-                <label htmlFor="asalInstansi" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                  Asal Instansi
-                </label>
-                <input
-                  type="text"
-                  id="asalInstansi"
-                  name="asalInstansi"
-                  value={formData.asalInstansi}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-4 text-lg border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
-                  placeholder="Masukkan nama instansi/perusahaan"
-                  required
-                />
-              </motion.div>
+            {/* Subtle floating elements */}
+            <div className="absolute -top-2 -right-2 w-4 h-4 bg-primary/10 rounded-full animate-pulse-soft"></div>
+            <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-sage/20 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
 
-              {/* Submit Button */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="pt-4"
-              >
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:ring-4 focus:ring-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg text-lg"
+            {/* Form Content */}
+            <div className="relative p-6 sm:p-8 lg:p-10">
+              <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-7">
+                {/* Nama Field */}
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="relative"
                 >
-                  {isSubmitting ? (
-                    <div className="flex items-center justify-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Mengirim...
-                    </div>
-                  ) : (
-                    'Kirim Data'
-                  )}
-                </button>
-              </motion.div>
-            </form>
+                  <label htmlFor="nama" className="block text-sm font-bold mb-3 ml-1 text-black">
+                    Nama Lengkap
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      id="nama"
+                      name="nama"
+                      value={formData.nama}
+                      onChange={handleInputChange}
+                      onFocus={() => setFocusedField('nama')}
+                      onBlur={() => setFocusedField(null)}
+                      className={`w-full px-5 py-4 text-base border-2 rounded-2xl transition-all duration-300 bg-green-50 text-green-800 placeholder-green-500 font-medium ${focusedField === 'nama'
+                          ? 'border-green-500'
+                          : 'border-green-300 hover:border-green-400'
+                        }`}
+                      placeholder="Tulis nama lengkap Anda"
+                      required
+                    />
+                    {focusedField === 'nama' && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute -right-2 -top-2 w-4 h-4 bg-green-500 rounded-full"
+                      />
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Asal Instansi Field */}
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                  className="relative"
+                >
+                  <label htmlFor="asalInstansi" className="block text-sm font-bold mb-3 ml-1 text-black">
+                    Asal Instansi
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      id="asalInstansi"
+                      name="asalInstansi"
+                      value={formData.asalInstansi}
+                      onChange={handleInputChange}
+                      onFocus={() => setFocusedField('asalInstansi')}
+                      onBlur={() => setFocusedField(null)}
+                      className={`w-full px-5 py-4 text-base border-2 rounded-2xl transition-all duration-300 bg-green-50 text-green-800 placeholder-green-500 font-medium ${focusedField === 'asalInstansi'
+                          ? 'border-green-500'
+                          : 'border-green-300 hover:border-green-400'
+                        }`}
+                      placeholder="Nama perusahaan atau institusi"
+                      required
+                    />
+                    {focusedField === 'asalInstansi' && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute -right-2 -top-2 w-4 h-4 bg-green-500 rounded-full"
+                      />
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Submit Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
+                  className="pt-6"
+                >
+                  <motion.button
+                    type="submit"
+                    disabled={isSubmitting}
+                    whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                    whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                    className={`w-full py-4 px-8 rounded-2xl font-semibold text-base transition-all duration-300 ${isSubmitting
+                        ? 'bg-green-400 cursor-not-allowed'
+                        : 'bg-green-500 hover:bg-green-600 active:bg-green-700'
+                      } text-white relative overflow-hidden`}
+                  >
+                    {isSubmitting ? (
+                      <div className="flex items-center justify-center">
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3"></div>
+                        Sedang mengirim...
+                      </div>
+                    ) : (
+                      <span className="flex items-center justify-center">
+                        Daftarkan Saya
+                        <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </span>
+                    )}
+                  </motion.button>
+                </motion.div>
+              </form>
+            </div>
           </motion.div>
 
           {/* Footer */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className="text-center mt-12"
+            transition={{ duration: 0.6, delay: 1 }}
+            className="text-center mt-8"
           >
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Aplikasi Buku Tamu Digital - Dibuat dengan ❤️ menggunakan Next.js
-            </p>
           </motion.div>
         </motion.div>
       </div>

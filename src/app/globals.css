@@ -2,16 +2,27 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --primary: #3b82f6;
+  --foreground: #1f2937;
+  --primary: #10b981;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --accent: #e2e8f0;
-  --accent-foreground: #0f172a;
-  --border: #e2e8f0;
+  --secondary: #f0fdf4;
+  --secondary-foreground: #1f2937;
+  --accent: #dcfce7;
+  --accent-foreground: #166534;
+  --border: #d1d5db;
   --input: #ffffff;
-  --ring: #3b82f6;
+  --ring: #10b981;
+  --surface: #ffffff;
+  --surface-hover: #f9fafb;
+  --mint: #10b981;
+  --mint-light: #34d399;
+  --cream: #f0fdf4;
+  --charcoal: #1f2937;
+  --sage: #22c55e;
+  --text-primary: #1f2937;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --text-placeholder: #9ca3af;
 }
 
 @theme inline {
@@ -26,23 +37,44 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-mint: var(--mint);
+  --color-mint-light: var(--mint-light);
+  --color-cream: var(--cream);
+  --color-charcoal: var(--charcoal);
+  --color-sage: var(--sage);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-placeholder: var(--text-placeholder);
+  --font-sans: var(--font-inter);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #3b82f6;
-    --primary-foreground: #ffffff;
-    --secondary: #1e293b;
-    --secondary-foreground: #f1f5f9;
-    --accent: #334155;
-    --accent-foreground: #f1f5f9;
-    --border: #334155;
-    --input: #1e293b;
-    --ring: #3b82f6;
+    --background: #1a202c;
+    --foreground: #ffffff;
+    --primary: #4fd1c7;
+    --primary-foreground: #1a202c;
+    --secondary: #2d3748;
+    --secondary-foreground: #ffffff;
+    --accent: #234e52;
+    --accent-foreground: #ffffff;
+    --border: #4a5568;
+    --input: #2d3748;
+    --ring: #4fd1c7;
+    --surface: #2d3748;
+    --surface-hover: #4a5568;
+    --mint: #4fd1c7;
+    --mint-light: #81e6d9;
+    --cream: #2d3748;
+    --charcoal: #ffffff;
+    --sage: #68d391;
+    --text-primary: #ffffff;
+    --text-secondary: #f0f0f0;
+    --text-muted: #cccccc;
+    --text-placeholder: #999999;
   }
 }
 
@@ -54,7 +86,155 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
-  line-height: 1.6;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mint);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Custom focus styles */
+.focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(56, 178, 172, 0.5);
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass morphism effect */
+.glass {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Custom animations */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 4s ease-in-out infinite;
+}
+
+/* Organic shapes */
+.organic-blob {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: float 8s ease-in-out infinite;
+}
+
+/* Enhanced text contrast for better readability */
+.text-high-contrast {
+  color: #1f2937 !important;
+  font-weight: 600;
+}
+
+.text-medium-contrast {
+  color: #374151 !important;
+  font-weight: 500;
+}
+
+/* Force placeholder visibility with green theme */
+input::placeholder {
+  color: #22c55e !important;
+  opacity: 1 !important;
+  font-weight: 500;
+}
+
+input::-webkit-input-placeholder {
+  color: #22c55e !important;
+  opacity: 1 !important;
+  font-weight: 500;
+}
+
+input::-moz-placeholder {
+  color: #22c55e !important;
+  opacity: 1 !important;
+  font-weight: 500;
+}
+
+input:-ms-input-placeholder {
+  color: #22c55e !important;
+  opacity: 1 !important;
+  font-weight: 500;
+}
+
+/* Force text color in inputs and remove default focus */
+input[type="text"] {
+  font-weight: 500;
+}
+
+input[type="text"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove all default browser focus styles */
+input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .text-high-contrast {
+    color: #ffffff !important;
+  }
+
+  .text-medium-contrast {
+    color: #f3f4f6 !important;
+  }
+
+  input[type="text"] {
+    color: #ffffff !important;
+    background-color: #374151 !important;
+  }
+
+  input::placeholder,
+  input::-webkit-input-placeholder,
+  input::-moz-placeholder,
+  input:-ms-input-placeholder {
+    color: #9ca3af !important;
+  }
 }
