@@ -202,17 +202,17 @@ input:-ms-input-placeholder {
 }
 
 /* Force text color in inputs and remove default focus */
-input[type="text"] {
+input[type="text"], textarea {
   font-weight: 500;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, textarea:focus {
   outline: none !important;
   box-shadow: none !important;
 }
 
 /* Remove all default browser focus styles */
-input:focus {
+input:focus, textarea:focus {
   outline: none !important;
   box-shadow: none !important;
 }

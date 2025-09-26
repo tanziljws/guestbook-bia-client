@@ -4,17 +4,19 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import Image from 'next/image';
+import { apiService } from '../services/api';
 
 export default function GuestBook() {
   const [formData, setFormData] = useState({
     nama: '',
-    asalInstansi: ''
+    asalInstansi: '',
+    pesan: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -32,18 +34,34 @@ export default function GuestBook() {
 
     setIsSubmitting(true);
 
-    // Simulate form submission delay
-    await new Promise(resolve => setTimeout(resolve, 1200));
+    try {
+      // Kirim data ke Backend API
+      const response = await apiService.createUmum({
+        nama: formData.nama.trim(),
+        nama_instansi: formData.asalInstansi.trim(),
+        pesan: formData.pesan.trim() || undefined
+      });
 
-    toast.success('Selamat datang! Data Anda telah tersimpan dengan baik');
+      toast.success('Selamat datang! Data Anda telah tersimpan dengan baik');
 
-    // Reset form
-    setFormData({
-      nama: '',
-      asalInstansi: ''
-    });
+      // Reset form
+      setFormData({
+        nama: '',
+        asalInstansi: '',
+        pesan: ''
+      });
 
-    setIsSubmitting(false);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      
+      if (error instanceof Error) {
+        toast.error(`Gagal menyimpan data: ${error.message}`);
+      } else {
+        toast.error('Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -213,6 +231,41 @@ export default function GuestBook() {
                       required
                     />
                     {focusedField === 'asalInstansi' && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute -right-2 -top-2 w-4 h-4 bg-green-500 rounded-full"
+                      />
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Pesan Field */}
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
+                  className="relative"
+                >
+                  <label htmlFor="pesan" className="block text-sm font-bold mb-3 ml-1 text-black">
+                    Pesan (Opsional)
+                  </label>
+                  <div className="relative">
+                    <textarea
+                      id="pesan"
+                      name="pesan"
+                      value={formData.pesan}
+                      onChange={handleInputChange}
+                      onFocus={() => setFocusedField('pesan')}
+                      onBlur={() => setFocusedField(null)}
+                      className={`w-full px-5 py-4 text-base border-2 rounded-2xl transition-all duration-300 bg-green-50 text-green-800 placeholder-green-500 font-medium resize-none ${focusedField === 'pesan'
+                          ? 'border-green-500'
+                          : 'border-green-300 hover:border-green-400'
+                        }`}
+                      placeholder="Tulis pesan Anda (opsional)"
+                      rows={3}
+                    />
+                    {focusedField === 'pesan' && (
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
