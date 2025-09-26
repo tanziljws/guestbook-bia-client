@@ -187,7 +187,7 @@ export default function GuestBook() {
                       onChange={handleInputChange}
                       onFocus={() => setFocusedField('nama')}
                       onBlur={() => setFocusedField(null)}
-                      className={`w-full px-5 py-4 text-base border-2 rounded-2xl transition-all duration-300 bg-green-50 text-green-800 placeholder-green-500 font-medium ${focusedField === 'nama'
+                      className={`w-full px-5 py-4 text-base border-2 rounded-2xl transition-all duration-300 bg-white text-gray-700 placeholder-gray-600 font-medium ${focusedField === 'nama'
                           ? 'border-green-500'
                           : 'border-green-300 hover:border-green-400'
                         }`}
@@ -223,7 +223,7 @@ export default function GuestBook() {
                       onChange={handleInputChange}
                       onFocus={() => setFocusedField('asalInstansi')}
                       onBlur={() => setFocusedField(null)}
-                      className={`w-full px-5 py-4 text-base border-2 rounded-2xl transition-all duration-300 bg-green-50 text-green-800 placeholder-green-500 font-medium ${focusedField === 'asalInstansi'
+                      className={`w-full px-5 py-4 text-base border-2 rounded-2xl transition-all duration-300 bg-white text-gray-700 placeholder-gray-600 font-medium ${focusedField === 'asalInstansi'
                           ? 'border-green-500'
                           : 'border-green-300 hover:border-green-400'
                         }`}
@@ -258,7 +258,7 @@ export default function GuestBook() {
                       onChange={handleInputChange}
                       onFocus={() => setFocusedField('pesan')}
                       onBlur={() => setFocusedField(null)}
-                      className={`w-full px-5 py-4 text-base border-2 rounded-2xl transition-all duration-300 bg-green-50 text-green-800 placeholder-green-500 font-medium resize-none ${focusedField === 'pesan'
+                      className={`w-full px-5 py-4 text-base border-2 rounded-2xl transition-all duration-300 bg-white text-gray-700 placeholder-gray-600 font-medium resize-none ${focusedField === 'pesan'
                           ? 'border-green-500'
                           : 'border-green-300 hover:border-green-400'
                         }`}

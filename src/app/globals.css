@@ -176,29 +176,25 @@ body {
   font-weight: 500;
 }
 
-/* Force placeholder visibility with green theme */
-input::placeholder {
-  color: #22c55e !important;
+/* Placeholder styling - ensure consistent placeholder colors */
+input::placeholder, textarea::placeholder {
+  color: #4b5563 !important;
   opacity: 1 !important;
-  font-weight: 500;
 }
 
-input::-webkit-input-placeholder {
-  color: #22c55e !important;
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #4b5563 !important;
   opacity: 1 !important;
-  font-weight: 500;
 }
 
-input::-moz-placeholder {
-  color: #22c55e !important;
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #4b5563 !important;
   opacity: 1 !important;
-  font-weight: 500;
 }
 
-input:-ms-input-placeholder {
-  color: #22c55e !important;
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #4b5563 !important;
   opacity: 1 !important;
-  font-weight: 500;
 }
 
 /* Force text color in inputs and remove default focus */
@@ -226,15 +222,7 @@ input:focus, textarea:focus {
     color: #f3f4f6 !important;
   }
 
-  input[type="text"] {
-    color: #ffffff !important;
-    background-color: #374151 !important;
-  }
+  /* Removed forced dark background to allow component-level control */
 
-  input::placeholder,
-  input::-webkit-input-placeholder,
-  input::-moz-placeholder,
-  input:-ms-input-placeholder {
-    color: #9ca3af !important;
-  }
+  /* Removed forced placeholder color to allow component-level control */
 }
