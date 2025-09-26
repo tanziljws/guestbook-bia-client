@@ -10,9 +10,15 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Guest Book",
+  title: "Buku Tamu Digital",
+  description: "Aplikasi buku tamu digital untuk mencatat kunjungan tamu",
   icons: {
-    icon: "/logo.png",
+    icon: [
+      {
+        url: "/logo.png",
+        sizes: "any",
+      },
+    ],
     shortcut: "/logo.png",
     apple: "/logo.png",
   },
